@@ -8,6 +8,8 @@
 #include <iostream>
 #include "flgl/flgl.h"
 #include "ecs/ECS.h"
+#include "sw/Stopwatch.h"
+static float dt = 1;
 
 class AtlasSprite {
     TEXTURE_SLOT slot;
@@ -48,16 +50,16 @@ Graphics gl;
 ECS scene;
 
 void preRenderSystem(ECS scene){
-    for (auto e : ECS::SceneView<AtlasSprite, Shader, Transform>(&scene)){
-        auto& shad = *scene.getComp<Shader>(e);
-        (*scene.getComp<Transform>(e)).syncShader(shad);
-        (*scene.getComp<AtlasSprite>(e)).syncShader(shad);
+    for (auto e : scene.view<AtlasSprite, Shader, Transform>()){
+        auto& shad = scene.getComp<Shader>(e);
+        (scene.getComp<Transform>(e)).syncShader(shad);
+        (scene.getComp<AtlasSprite>(e)).syncShader(shad);
     }
 }
 
 void rotateSystem(ECS scene, Window const& win){
-    for (auto e : ECS::SceneView<Transform>(&scene)){
-        auto& t = *scene.getComp<Transform>(e);
+    for (auto e : scene.view<Transform>()){
+        auto& t = scene.getComp<Transform>(e);
         static float av = 0;
         float dir = 0;
         if (win.keyboard.keys[GLFW_KEY_A].down){
@@ -84,16 +86,19 @@ int main(int argc, const char * argv[]) {
     
     entID e = scene.newEntity();
     scene.addComp<AtlasSprite>(e);
-    AtlasSprite& sprite = *scene.getComp<AtlasSprite>(e);
+    AtlasSprite& sprite = scene.getComp<AtlasSprite>(e);
     sprite.init(tex, glm::ivec2(32, 64), glm::vec2(0.5, 15.f));
     
     scene.addComp<Transform>(e);
-    Transform& trans = *scene.getComp<Transform>(e);
+    Transform& trans = scene.getComp<Transform>(e);
     trans.init(glm::vec2(0), 45.f, glm::vec2(0.5, 1));
     
     scene.addComp<Shader>(e);
-    *scene.getComp<Shader>(e) = shader;
+    scene.getComp<Shader>(e) = shader;
     
+    ftime::Stopwatch sw(ftime::SECONDS);
+    
+    sw.reset_start();
     while (!window.should_close()){
         gl.clear();
         
@@ -103,6 +108,10 @@ int main(int argc, const char * argv[]) {
         gl.DrawTile();
         
         window.update();
+        dt = sw.stop_reset_start();
+        static uint32_t fpsdelay = 0;
+        if (window.keyboard.keys[GLFW_KEY_F].down && !(fpsdelay++ % 100))
+            std::cout << 1 / dt << "fps\n";
     }
     
     gl.destroy();
