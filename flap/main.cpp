@@ -9,6 +9,7 @@
 #include "flgl/flgl.h"
 #include "ecs/ECS.h"
 #include "sw/Stopwatch.h"
+#include "Camera.h"
 static float dt = 1;
 
 class AtlasSprite {
@@ -17,7 +18,7 @@ class AtlasSprite {
     glm::vec2 pos;
 public:
     AtlasSprite() = default;
-    void init(TEXTURE_SLOT s, glm::ivec2 d, glm::vec2 p){
+    AtlasSprite(TEXTURE_SLOT s, glm::ivec2 d, glm::vec2 p){
         slot = s; dims = d; pos = p;
     }
     void syncShader(Shader& shad){
@@ -34,7 +35,7 @@ public:
     float rotation;
     glm::vec2 scale;
     Transform() = default;
-    void init(glm::vec2 p, float r, glm::vec2 s){
+    Transform(glm::vec2 p, float r, glm::vec2 s){
         pos = p; rotation = r; scale = s;
     }
     void syncShader(Shader& shad){
@@ -73,6 +74,20 @@ void rotateSystem(ECS scene, Window const& win){
     }
 }
 
+void cameraSystem(ECS scene, Window const& win){
+    for (auto e : scene.view<OrthoCamera>()){
+        auto& cam = scene.getComp<OrthoCamera>(e);
+        if (cam.getViewWidth() != win.frame.x){
+            cam.setViewWidth(win.frame.x);
+            cam.update();
+            Graphics::forEachShader([&](Shader s)->void{
+                s.uMat4("uView", cam.View());
+                s.uMat4("uProj", cam.Proj());
+            });
+        }
+    }
+}
+
 int main(int argc, const char * argv[]) {
     gl.init();
     gl.loader.setShaderPath("Shaders/");
@@ -85,16 +100,15 @@ int main(int argc, const char * argv[]) {
     TEXTURE_SLOT tex = gl.loader.UploadTexture("terrain", true);
     
     entID e = scene.newEntity();
-    scene.addComp<AtlasSprite>(e);
-    AtlasSprite& sprite = scene.getComp<AtlasSprite>(e);
-    sprite.init(tex, glm::ivec2(32, 64), glm::vec2(0.5, 15.f));
+    scene.addComp<AtlasSprite>(e, tex, glm::ivec2(32, 64), glm::vec2(0.5, 15.f));
     
-    scene.addComp<Transform>(e);
-    Transform& trans = scene.getComp<Transform>(e);
-    trans.init(glm::vec2(0), 45.f, glm::vec2(0.5, 1));
+    scene.addComp<Transform>(e, glm::vec2(0), 45.f, glm::vec2(0.5, 1));
     
     scene.addComp<Shader>(e);
     scene.getComp<Shader>(e) = shader;
+    
+    entID cam = scene.newEntity();
+    scene.addComp<OrthoCamera>(cam, glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f), 0.001, 1000, window.frame.x);
     
     ftime::Stopwatch sw(ftime::SECONDS);
     

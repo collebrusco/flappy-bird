@@ -19,6 +19,7 @@
 		4C8024142A2176A000F37188 /* Vertex.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024042A2176A000F37188 /* Vertex.cpp */; };
 		4C8024202A217CC300F37188 /* ECS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C80241E2A217CC300F37188 /* ECS.cpp */; };
 		4C8024272A21ABA900F37188 /* Stopwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024262A21ABA900F37188 /* Stopwatch.cpp */; };
+		4C80242A2A21B56600F37188 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024292A21B56600F37188 /* Camera.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -77,6 +78,8 @@
 		4C8024242A21ABA900F37188 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		4C8024252A21ABA900F37188 /* Stopwatch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Stopwatch.h; sourceTree = "<group>"; };
 		4C8024262A21ABA900F37188 /* Stopwatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stopwatch.cpp; sourceTree = "<group>"; };
+		4C8024282A21B56600F37188 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		4C8024292A21B56600F37188 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,8 @@
 		4C8023E12A2175B100F37188 /* flap */ = {
 			isa = PBXGroup;
 			children = (
+				4C8024292A21B56600F37188 /* Camera.cpp */,
+				4C8024282A21B56600F37188 /* Camera.h */,
 				4C8024212A21ABA900F37188 /* sw */,
 				4C80241A2A217CC300F37188 /* ecs */,
 				4C8024182A2178D400F37188 /* Textures */,
@@ -308,6 +313,7 @@
 				4C8024112A2176A000F37188 /* Shader.cpp in Sources */,
 				4C8024122A2176A000F37188 /* Graphics.cpp in Sources */,
 				4C8024272A21ABA900F37188 /* Stopwatch.cpp in Sources */,
+				4C80242A2A21B56600F37188 /* Camera.cpp in Sources */,
 				4C8024142A2176A000F37188 /* Vertex.cpp in Sources */,
 				4C8024132A2176A000F37188 /* GL_Loader.cpp in Sources */,
 				4C8024102A2176A000F37188 /* Window.cpp in Sources */,
