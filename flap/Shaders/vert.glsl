@@ -17,7 +17,7 @@ out vec3 iPos;
 void main() {
     iUV = aUV;
     iPos = aPos;
-//    gl_Position = uProj * uView * uModel * vec4(aPos, 1.0f);    // option 1: projection, view, and model matricies
-    gl_Position = uModel * vec4(aPos, 1.0f);                  // option 2: model matrix only
+    gl_Position = uProj * uView * uModel * vec4(aPos, 1.0f);  // option 1: projection, view, and model matricies
+//    gl_Position = uModel * vec4(aPos, 1.0f);                  // option 2: model matrix only
 //    gl_Position = vec4(aPos, 1.0f);                           // option 3: raw vertex data
 }

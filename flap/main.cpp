@@ -80,11 +80,11 @@ void cameraSystem(ECS scene, Window const& win){
         if (cam.getViewWidth() != win.frame.x){
             cam.setViewWidth(win.frame.x);
             cam.update();
-            Graphics::forEachShader([&](Shader s)->void{
-                s.uMat4("uView", cam.View());
-                s.uMat4("uProj", cam.Proj());
-            });
         }
+        Graphics::forEachShader([&](Shader s)->void{
+            s.uMat4("uView", cam.View());
+            s.uMat4("uProj", cam.Proj());
+        });
     }
 }
 
@@ -94,6 +94,7 @@ int main(int argc, const char * argv[]) {
     gl.loader.setAssetPath("Textures/");
 
     Window& window = gl.createWindow("flappy bird", 480, 480);
+    window.update();
 
     Shader shader = gl.loader.UploadShader("vert", "frag");
     
@@ -102,13 +103,13 @@ int main(int argc, const char * argv[]) {
     entID e = scene.newEntity();
     scene.addComp<AtlasSprite>(e, tex, glm::ivec2(32, 64), glm::vec2(0.5, 15.f));
     
-    scene.addComp<Transform>(e, glm::vec2(0), 45.f, glm::vec2(0.5, 1));
+    scene.addComp<Transform>(e, glm::vec2(0), 45.f, glm::vec2(500, 1000));
     
     scene.addComp<Shader>(e);
     scene.getComp<Shader>(e) = shader;
     
     entID cam = scene.newEntity();
-    scene.addComp<OrthoCamera>(cam, glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f), 0.001, 1000, window.frame.x);
+    scene.addComp<OrthoCamera>(cam, glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f), 0.001, 1000, -1);
     
     ftime::Stopwatch sw(ftime::SECONDS);
     
@@ -116,6 +117,7 @@ int main(int argc, const char * argv[]) {
     while (!window.should_close()){
         gl.clear();
         
+        cameraSystem(scene, window);
         rotateSystem(scene, window);
         preRenderSystem(scene);
         
