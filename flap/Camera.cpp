@@ -8,9 +8,6 @@
 
 #include "Camera.h"
 #include "flgl/flgl.h"
-CameraData::CameraData(glm::mat4 v, glm::mat4 p){
-    view = v; proj = p;
-}
 
 void Camera::update(){
     this->updateProj();
@@ -23,7 +20,6 @@ glm::mat4 Camera::updateView(){
 }
 glm::mat4 Camera::View(){return view;}
 glm::mat4 Camera::Proj(){return proj;}
-CameraData Camera::Data(){return CameraData(view, proj);}
 void Camera::setMouseControl(bool f){
     
 }
@@ -38,8 +34,8 @@ OrthoCamera::OrthoCamera(){
     viewWidth = 10;
 }
 OrthoCamera::OrthoCamera(glm::vec3 p, glm::vec3 l, glm::vec3 u, float n, float f, float w){
-        pos = p; look = l; up = u; near = n; far = f; viewWidth = w;
-    }
+    pos = p; look = l; up = u; near = n; far = f; viewWidth = w;
+}
 void OrthoCamera::setViewWidth(float vw){
     viewWidth = vw;
 }

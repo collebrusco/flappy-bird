@@ -16,11 +16,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/ext/matrix_clip_space.hpp>
 
-struct CameraData {
-    glm::mat4 view, proj;
-    CameraData(glm::mat4 v, glm::mat4 p);
-};
-
 class Camera {
 public://protected:
     glm::vec3 pos, look, up;
@@ -35,7 +30,6 @@ public: //TODO: detect & update only when needed
     virtual glm::mat4 updateProj() = 0;
     glm::mat4 View();
     glm::mat4 Proj();
-    CameraData Data();
 };
 
 class OrthoCamera : public Camera {
