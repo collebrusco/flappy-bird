@@ -20,7 +20,6 @@
 		4C8024202A217CC300F37188 /* ECS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C80241E2A217CC300F37188 /* ECS.cpp */; };
 		4C8024272A21ABA900F37188 /* Stopwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024262A21ABA900F37188 /* Stopwatch.cpp */; };
 		4C80242A2A21B56600F37188 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024292A21B56600F37188 /* Camera.cpp */; };
-		4C80242D2A220AA000F37188 /* Flappy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C80242C2A220AA000F37188 /* Flappy.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -81,8 +80,6 @@
 		4C8024262A21ABA900F37188 /* Stopwatch.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Stopwatch.cpp; sourceTree = "<group>"; };
 		4C8024282A21B56600F37188 /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
 		4C8024292A21B56600F37188 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
-		4C80242B2A220AA000F37188 /* Flappy.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Flappy.h; sourceTree = "<group>"; };
-		4C80242C2A220AA000F37188 /* Flappy.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = Flappy.cpp; sourceTree = "<group>"; };
 		4CB0A96C2A22C93500F3CE29 /* bgv.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = bgv.glsl; sourceTree = "<group>"; };
 		4CB0A96D2A22C94200F3CE29 /* bgf.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = bgf.glsl; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -130,8 +127,6 @@
 				4C8024152A2177A300F37188 /* Shaders */,
 				4C8023F22A2176A000F37188 /* flgl */,
 				4C8023E22A2175B100F37188 /* main.cpp */,
-				4C80242B2A220AA000F37188 /* Flappy.h */,
-				4C80242C2A220AA000F37188 /* Flappy.cpp */,
 			);
 			path = flap;
 			sourceTree = "<group>";
@@ -325,7 +320,6 @@
 				4C80242A2A21B56600F37188 /* Camera.cpp in Sources */,
 				4C8024142A2176A000F37188 /* Vertex.cpp in Sources */,
 				4C8024132A2176A000F37188 /* GL_Loader.cpp in Sources */,
-				4C80242D2A220AA000F37188 /* Flappy.cpp in Sources */,
 				4C8024102A2176A000F37188 /* Window.cpp in Sources */,
 				4C8024202A217CC300F37188 /* ECS.cpp in Sources */,
 			);
