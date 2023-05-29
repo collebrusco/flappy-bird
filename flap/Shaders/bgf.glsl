@@ -42,7 +42,7 @@ void main(){
     } else {
         clr.xyz = mix(vec3(0.8, 0.7, 0.11), clr.xyz, min((distToSun - 0.1) * 5, 1));
     }
-    clr.xyz = mix(clr.xyz, vec3(rand(vec2(i_res.x + uTime, n_res.y)), rand(vec2(uTime, distToSun * i_res.x*i_res.y)), rand(vec2(clr.y, 83.38))), 0.8);
+    clr.xyz = mix(clr.xyz, vec3(rand(vec2(i_res.x + uTime, n_res.y)), rand(vec2(uTime, distToSun * i_res.x*i_res.y)), rand(vec2(clr.y, 83.38))), 0.02);
     
 //    if (gl_FragCoord.y < rand(0, uresy/2, uTime)){
 //        clr = vec4(0.3, 0.1, 0.4, 1.f);

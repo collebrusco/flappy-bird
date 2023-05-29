@@ -3,6 +3,9 @@
 
 # Images
 *.png
+*.mov
+*.m4a
+*.mp4
 
 # Compiled Object files
 *.slo
