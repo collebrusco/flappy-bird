@@ -1,8 +1,7 @@
 # Prerequisites
 *.d
 
-# Images
-*.png
+# Movies
 *.mov
 *.m4a
 *.mp4
