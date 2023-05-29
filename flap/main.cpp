@@ -190,10 +190,18 @@ void pipeSpawnSystem(ECS& scene, Window& win, TEXTURE_SLOT tex, Shader& shader){
 
 void collisionSystem(ECS& scene, entID borb, bool& col){
     static const float bw = 75.f* (9.f/16.f);
+//    static uint32_t prevToggle = 0;
+//    static entID prevScore[2] = {0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF};
+//    static unsigned int score = 0;
     auto bt = scene.getComp<Transform>(borb);
     for (auto e : scene.view<isPipe>()){
         auto& trans = scene.getComp<Transform>(e);
         if (abs(trans.pos.x - bt.pos.x) > (112+bw)){continue;}
+//        if (!(e == prevScore[0] || e == prevScore[1])){    // we're scoring a point
+//            prevScore = e;
+//            score++;
+//            std::cout << (score>>1) << "pts!\n";
+//        }
         bool hit;
         if (trans.rotation == 0.f){
             hit = ((trans.pos.y-300) - bt.pos.y) > -(bw+40);
@@ -249,12 +257,17 @@ int flappy(){
     total.start();
     dtimer.reset_start();
     bool col = false;
+    //DEBUG
+                                                    ftime::Stopwatch debug(ftime::MILLISECONDS);
+                                                    float dump[0x800];
+                                                    uint32_t dumpCount = 0x7FF;
     while (!window.should_close()){
         gl.clear();
         
         if (!col){
             bgshad.uFloat("uTime", total.read());
-            bgshad.uFloat("uresy", ((float)window.frame.y)/2.f);
+            bgshad.uVec2("ures", glm::vec2(window.frame.x, window.frame.y));
+            bgshad.uFloat("uAspect", window.aspect);
             pipeSpawnSystem(scene, window, tex, shader);
             pipeCleanerSystem(scene, window);
             flapSystem(scene, borb, window, dt);
@@ -262,7 +275,18 @@ int flappy(){
             collisionSystem(scene, borb, col);
         }
         cameraSystem(scene, window);
+                                                    debug.reset_start();
         renderSystem(scene);
+                                                    dump[dumpCount--] = debug.stop();
+                                                    if (dumpCount == 0xFFFFFFFF){
+                                                        float avg = 0;
+                                                        for (int i = 0; i < 0x800; i++){
+                                                            avg += dump[i];
+                                                        }
+                                                        avg /= 0x800;
+                                                        std::cout << "avg render time: " << avg << "\n";
+                                                        break;
+                                                    }
         window.update();
         dt = dtimer.stop_reset_start();
         if (window.keyboard[GLFW_KEY_F].down)
