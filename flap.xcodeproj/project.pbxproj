@@ -67,7 +67,6 @@
 		4C80240F2A2176A000F37188 /* LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE.txt; sourceTree = "<group>"; };
 		4C8024162A2177E500F37188 /* vert.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = vert.glsl; sourceTree = "<group>"; };
 		4C8024172A2177ED00F37188 /* frag.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = frag.glsl; sourceTree = "<group>"; };
-		4C8024192A21791F00F37188 /* terrain.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = terrain.png; sourceTree = "<group>"; };
 		4C80241B2A217CC300F37188 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		4C80241C2A217CC300F37188 /* ECS.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ECS.h; sourceTree = "<group>"; };
 		4C80241D2A217CC300F37188 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -82,6 +81,8 @@
 		4C8024292A21B56600F37188 /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
 		4CB0A96C2A22C93500F3CE29 /* bgv.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = bgv.glsl; sourceTree = "<group>"; };
 		4CB0A96D2A22C94200F3CE29 /* bgf.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = bgf.glsl; sourceTree = "<group>"; };
+		4CD6A5A62A256DBF003185C1 /* borb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = borb.png; sourceTree = "<group>"; };
+		4CD6A5A72A256DBF003185C1 /* font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -227,7 +228,8 @@
 		4C8024182A2178D400F37188 /* Textures */ = {
 			isa = PBXGroup;
 			children = (
-				4C8024192A21791F00F37188 /* terrain.png */,
+				4CD6A5A62A256DBF003185C1 /* borb.png */,
+				4CD6A5A72A256DBF003185C1 /* font.png */,
 			);
 			path = Textures;
 			sourceTree = "<group>";

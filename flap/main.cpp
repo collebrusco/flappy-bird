@@ -139,7 +139,7 @@ void flapSystem(ECS& scene, entID borb, Window& win, float dt){
     } else if (trans.pos.y > (-win.frame.y/2)) {
         velo.velo.y -= g * dt;
     } else {
-        velo.velo.y = 0;
+        velo.velo.y = glm::max(0.f, velo.velo.y);
     }
 }
 
@@ -190,18 +190,19 @@ void pipeSpawnSystem(ECS& scene, Window& win, TEXTURE_SLOT tex, Shader& shader){
 
 void collisionSystem(ECS& scene, entID borb, bool& col){
     static const float bw = 75.f* (9.f/16.f);
-//    static uint32_t prevToggle = 0;
-//    static entID prevScore[2] = {0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF};
-//    static unsigned int score = 0;
+    static uint32_t prevToggle = 0;
+    static entID prevScore[2] = {0xFFFFFFFFFFFFFFFF, 0xFFFFFFFFFFFFFFFF};
+    static unsigned int score = 0;
     auto bt = scene.getComp<Transform>(borb);
     for (auto e : scene.view<isPipe>()){
         auto& trans = scene.getComp<Transform>(e);
         if (abs(trans.pos.x - bt.pos.x) > (112+bw)){continue;}
-//        if (!(e == prevScore[0] || e == prevScore[1])){    // we're scoring a point
-//            prevScore = e;
-//            score++;
-//            std::cout << (score>>1) << "pts!\n";
-//        }
+        if (!(e == prevScore[0] || e == prevScore[1])){    // we're scoring a point
+            prevScore[prevToggle ^= 0x01] = e;
+            score++;
+            if (prevToggle)
+                std::cout << (score>>1) << "pts!\n";
+        }
         bool hit;
         if (trans.rotation == 0.f){
             hit = ((trans.pos.y-300) - bt.pos.y) > -(bw+40);
