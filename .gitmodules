@@ -1,6 +1,3 @@
-[submodule "flap/flgl"]
-	path = flap/flgl
-	url = https://github.com/collebrusco/flgl
 [submodule "flap/ecs"]
 	path = flap/ecs
 	url = https://github.com/collebrusco/entity-mini

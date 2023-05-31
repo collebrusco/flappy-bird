@@ -9,7 +9,6 @@
 #include "flgl/flgl.h"
 #include "ecs/ECS.h"
 #include "sw/Stopwatch.h"
-#include "Camera.h"
 #include "debug.h"
 #include <stdlib.h>
 static float dt = 1/60;
@@ -40,7 +39,7 @@ public:
     glm::vec2 anchor;
     Transform() = default;
     Transform(glm::vec2 p, float r, glm::vec2 s, glm::vec2 a = glm::vec2(0)){
-        pos = p; rotation = r; scale = s;
+        pos = p; rotation = r; scale = s; anchor = a;
     }
     void syncShader(Shader& shad){
         shad.bind();
@@ -112,8 +111,8 @@ void cameraSystem(ECS& scene, Window const& win){
             cam.update();
         }
         Graphics::forEachShader([&](Shader s)->void{
-            s.uMat4("uView", cam.View());
-            s.uMat4("uProj", cam.Proj());
+            s.uMat4("uView", cam.view());
+            s.uMat4("uProj", cam.proj());
         });
     }
 }
@@ -290,6 +289,5 @@ int flappy(){
 
 
 int main(){
-    flappy();
-    return 0;
+    return flappy();
 }
