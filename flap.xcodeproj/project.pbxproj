@@ -20,6 +20,8 @@
 		4C8024202A217CC300F37188 /* ECS.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C80241E2A217CC300F37188 /* ECS.cpp */; };
 		4C8024272A21ABA900F37188 /* Stopwatch.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024262A21ABA900F37188 /* Stopwatch.cpp */; };
 		4C80242A2A21B56600F37188 /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4C8024292A21B56600F37188 /* Camera.cpp */; };
+		4CEAE1A32A26E4B100BF057E /* Camera.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CEAE1A12A26E4B100BF057E /* Camera.cpp */; };
+		4CEAE1A42A26E4B100BF057E /* flgl_math.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 4CEAE1A22A26E4B100BF057E /* flgl_math.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -84,6 +86,10 @@
 		4CD6A5A62A256DBF003185C1 /* borb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = borb.png; sourceTree = "<group>"; };
 		4CD6A5A72A256DBF003185C1 /* font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font.png; sourceTree = "<group>"; };
 		4CEAE19E2A26DF2C00BF057E /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
+		4CEAE19F2A26E4B100BF057E /* flgl_math.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = flgl_math.h; sourceTree = "<group>"; };
+		4CEAE1A02A26E4B100BF057E /* Camera.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Camera.h; sourceTree = "<group>"; };
+		4CEAE1A12A26E4B100BF057E /* Camera.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Camera.cpp; sourceTree = "<group>"; };
+		4CEAE1A22A26E4B100BF057E /* flgl_math.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = flgl_math.cpp; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -163,6 +169,10 @@
 		4C8023F32A2176A000F37188 /* flgl */ = {
 			isa = PBXGroup;
 			children = (
+				4CEAE1A12A26E4B100BF057E /* Camera.cpp */,
+				4CEAE1A02A26E4B100BF057E /* Camera.h */,
+				4CEAE1A22A26E4B100BF057E /* flgl_math.cpp */,
+				4CEAE19F2A26E4B100BF057E /* flgl_math.h */,
 				4C8023F42A2176A000F37188 /* Vertex.h */,
 				4C8023F52A2176A000F37188 /* ID_Map.h */,
 				4C8023F62A2176A000F37188 /* Shader.h */,
@@ -319,6 +329,7 @@
 			files = (
 				4C8023E32A2175B100F37188 /* main.cpp in Sources */,
 				4C8024112A2176A000F37188 /* Shader.cpp in Sources */,
+				4CEAE1A32A26E4B100BF057E /* Camera.cpp in Sources */,
 				4C8024122A2176A000F37188 /* Graphics.cpp in Sources */,
 				4C8024272A21ABA900F37188 /* Stopwatch.cpp in Sources */,
 				4C80242A2A21B56600F37188 /* Camera.cpp in Sources */,
@@ -326,6 +337,7 @@
 				4C8024132A2176A000F37188 /* GL_Loader.cpp in Sources */,
 				4C8024102A2176A000F37188 /* Window.cpp in Sources */,
 				4C8024202A217CC300F37188 /* ECS.cpp in Sources */,
+				4CEAE1A42A26E4B100BF057E /* flgl_math.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
