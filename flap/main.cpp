@@ -38,7 +38,7 @@ public:
     glm::vec2 scale;
     glm::vec2 anchor;
     Transform() = default;
-    Transform(glm::vec2 p, float r, glm::vec2 s, glm::vec2 a = glm::vec2(0)){
+    Transform(glm::vec2 p, float r, glm::vec2 s, glm::vec2 a = glm::vec2(0) ){
         pos = p; rotation = r; scale = s; anchor = a;
     }
     void syncShader(Shader& shad){
@@ -255,14 +255,16 @@ int flappy(){
     total.start();
     dtimer.reset_start();
     bool col = false;
-                                                                                    debug_init();
+//                                                                                    debug_init();
     while (!window.should_close()){
         gl.clear();
         
         if (!col){
-            bgshad.uFloat("uTime", total.read());
-            bgshad.uVec2("ures", glm::vec2(window.frame.x, window.frame.y));
-            bgshad.uFloat("uAspect", window.aspect);
+            gl.forEachShader([&](Shader shad)->void{
+                shad.uFloat("uTime", total.read());
+                shad.uVec2("ures", glm::vec2(window.frame.x, window.frame.y));
+                shad.uFloat("uAspect", window.aspect);
+            });
             pipeSpawnSystem(scene, window, tex, shader);
             pipeCleanerSystem(scene, window);
             flapSystem(scene, borb, window, dt);
@@ -270,13 +272,13 @@ int flappy(){
             collisionSystem(scene, borb, col);
         }
         cameraSystem(scene, window);
-                                                                                    debug_start_sample();
+//                                                                                    debug_start_sample();
         renderSystem(scene);
-                                                                                    debug_end_sample();
-                                                                                    if (debug_buffer_full()){
-                                                                                        debug_output_result();
-                                                                                        break;
-                                                                                    }
+//                                                                                    debug_end_sample();
+//                                                                                    if (debug_buffer_full()){
+//                                                                                        debug_output_result();
+//                                                                                        break;
+//                                                                                    }
         window.update();
         dt = dtimer.stop_reset_start();
         if (window.keyboard[GLFW_KEY_F].down)

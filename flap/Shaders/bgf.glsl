@@ -31,7 +31,7 @@ vec2 gradient(int x, int y){
     b *= 0x5454FAFF;
     a ^= (b << 16) | (b >> 16);
     a *= 0xDA442859;
-    float theta = a * (3.14159265 / (2 * (0x10000000)));
+    float theta = a * (3.14159265 / ((0x10000000)));
     return vec2(cos(theta), sin(theta));
 }
 
@@ -43,7 +43,7 @@ vec2 gradient(int x, int y, float speed){
     b *= 0x5454FAFF;
     a ^= (b << 16) | (b >> 16);
     a *= 0xDA442859;
-    float theta = a * (3.14159265 / (2 * (0x10000000)));
+    float theta = a * (3.14159265 / ((0x10000000)));
     return vec2(cos(theta+(uTime*speed)), sin(theta+(uTime*speed)));
 }
 
@@ -86,6 +86,34 @@ float perlin(vec2 pos){
     return perlin(pos, 0, vec2(0), vec2(1));
 }
 
+float frand(int x, int y, float n0, float n1){
+    uint a = x;
+    uint b = y;
+    a *= 0xBAF3C90F;
+    b ^= (a << 16) | (a >> 16);
+    b *= 0x5454FAFF;
+    a ^= (b << 16) | (b >> 16);
+    a *= 0xDA442859;
+    float theta = uint(a);
+    theta /= float(~((~0u)>>1));
+    theta /= 2;
+    theta *= (n1 - n0);
+    theta += n0;
+    return theta;
+}
+
+vec3 sevenLayerNoise(float spd){
+    int i;
+    vec3 noise = vec3(0.f);
+    int div = 0;
+    for (i = 1; i < 0x1000; i <<= 1) {
+        noise += vec3(perlin((i_res * float(i)/5) + vec2(float(i)),div,vec2(2*spd, 0)));
+        div++;
+    }
+    noise /= div;
+    return noise;
+}
+
 void main(){
     
     // base
@@ -119,5 +147,48 @@ void main(){
                       min((distToSun - 0.1) * 5 * (perlin((i_res/2) + uTime/4, 2)*4) * (perlin(i_res*12,2)*2), 1)),
                   min(1, distToSun * 8));
 
+    // mountains
+    vec2 m_res = i_res*2;
+    m_res.x += uTime / 12;
+    int x0 = int(floor(m_res.x));
+    int x1 = x0 + 1;
+    
+    float lh = frand(x0, 0x82394777, 0.7, 1.4f);
+    float rh = frand(x1, 0x82394777, 0.7, 1.4f);
+    
+    float cutoff = lh + ((rh - lh) * fract(m_res.x));
+    cutoff += (perlin(vec2(m_res.x, cutoff) * 3) / 6) - 0.2;
+    if (m_res.y < cutoff){
+        vec3 mtnclr = vec3(0.2, 0.11, 0.22);
+        clr.xyz = mtnclr;
+        clr.xyz = mix(vec3(0.9, 0.9, 1.0), mtnclr, min(1.f, abs(2*(m_res.y - 1.3))));
+//        clr.xyz += (sevenLayerNoise(uTime/5)/3) - 0.25;
+    }
+    
+    // next mtn
+    m_res = i_res*2;
+    m_res.x += uTime / 3;
+    x0 = int(floor(m_res.x)) + 1938419;
+    x1 = x0 + 1;
+    
+    lh = frand(x0, 0x82394777, 0.2, 0.7f);
+    rh = frand(x1, 0x82394777, 0.2, 0.7f);
+    
+    cutoff = lh + ((rh - lh) * fract(m_res.x));
+    cutoff += (perlin(vec2(m_res.x, cutoff)) / 1) - 0.63;
+    if (m_res.y < cutoff){
+        vec3 mtnclr = vec3(0.4, 0.2, 0.3);
+        clr.xyz = mtnclr;
+        clr.xyz = mix(vec3(0.8, 0.8, 0.99), mtnclr, min(1.f, -2*(m_res.y - 0.4f)));
+//        clr.xyz += (sevenLayerNoise(uTime/3)/3) - 0.25;
+    }
+    
+    // snow
+    for (int i = 1; i < 5; i++){
+        float sn = perlin(i_res * 50 * i, 3, vec2(uTime * 20 * (5-i), uTime * 20));
+        if (sn > 0.7){
+            clr.xyz = vec3(1.f);//mix(clr.xyz, vec3(1.f), (sn*sn)/0.81);
+        }
+    }
     outColor = clr;
 }

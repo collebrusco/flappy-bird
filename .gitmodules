@@ -4,3 +4,6 @@
 [submodule "flap/sw"]
 	path = flap/sw
 	url = https://github.com/collebrusco/stopwatch
+[submodule "flap/flgl"]
+	path = flap/flgl
+	url = https://github.com/collebrusco/flgl
