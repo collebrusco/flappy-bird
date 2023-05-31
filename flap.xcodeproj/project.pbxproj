@@ -83,6 +83,7 @@
 		4CB0A96D2A22C94200F3CE29 /* bgf.glsl */ = {isa = PBXFileReference; lastKnownFileType = text; path = bgf.glsl; sourceTree = "<group>"; };
 		4CD6A5A62A256DBF003185C1 /* borb.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = borb.png; sourceTree = "<group>"; };
 		4CD6A5A72A256DBF003185C1 /* font.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = font.png; sourceTree = "<group>"; };
+		4CEAE19E2A26DF2C00BF057E /* debug.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = debug.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -122,6 +123,7 @@
 			children = (
 				4C8024292A21B56600F37188 /* Camera.cpp */,
 				4C8024282A21B56600F37188 /* Camera.h */,
+				4CEAE19E2A26DF2C00BF057E /* debug.h */,
 				4C8024212A21ABA900F37188 /* sw */,
 				4C80241A2A217CC300F37188 /* ecs */,
 				4C8024182A2178D400F37188 /* Textures */,

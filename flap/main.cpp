@@ -10,6 +10,7 @@
 #include "ecs/ECS.h"
 #include "sw/Stopwatch.h"
 #include "Camera.h"
+#include "debug.h"
 #include <stdlib.h>
 static float dt = 1/60;
 static Graphics gl;
@@ -38,11 +39,8 @@ public:
     glm::vec2 scale;
     glm::vec2 anchor;
     Transform() = default;
-    Transform(glm::vec2 p, float r, glm::vec2 s){
-        pos = p; rotation = r; scale = s; anchor = glm::vec2(0);
-    }
-    Transform(glm::vec2 p, float r, glm::vec2 s, glm::vec2 a){
-        pos = p; rotation = r; scale = s; anchor = a;
+    Transform(glm::vec2 p, float r, glm::vec2 s, glm::vec2 a = glm::vec2(0)){
+        pos = p; rotation = r; scale = s;
     }
     void syncShader(Shader& shad){
         shad.bind();
@@ -258,10 +256,7 @@ int flappy(){
     total.start();
     dtimer.reset_start();
     bool col = false;
-    //DEBUG
-                                                    ftime::Stopwatch debug(ftime::MILLISECONDS);
-                                                    float dump[0x800];
-                                                    uint32_t dumpCount = 0x7FF;
+                                                                                    debug_init();
     while (!window.should_close()){
         gl.clear();
         
@@ -276,18 +271,13 @@ int flappy(){
             collisionSystem(scene, borb, col);
         }
         cameraSystem(scene, window);
-                                                    debug.reset_start();
+                                                                                    debug_start_sample();
         renderSystem(scene);
-                                                    dump[dumpCount--] = debug.stop();
-                                                    if (dumpCount == 0xFFFFFFFF){
-                                                        float avg = 0;
-                                                        for (int i = 0; i < 0x800; i++){
-                                                            avg += dump[i];
-                                                        }
-                                                        avg /= 0x800;
-                                                        std::cout << "avg render time: " << avg << "\n";
-                                                        break;
-                                                    }
+                                                                                    debug_end_sample();
+                                                                                    if (debug_buffer_full()){
+                                                                                        debug_output_result();
+                                                                                        break;
+                                                                                    }
         window.update();
         dt = dtimer.stop_reset_start();
         if (window.keyboard[GLFW_KEY_F].down)
@@ -297,77 +287,9 @@ int flappy(){
     return 0;
 }
 
-int render_sys_stress_main() {
-    ftime::Stopwatch sw(ftime::SECONDS);
-    sw.start();
-    gl.init();
-    gl.loader.setShaderPath("Shaders/");
-    gl.loader.setAssetPath("Textures/");
-    ECS scene;
 
-    Window& window = gl.createWindow("flappy bird", 1080, 1920);
-    window.update();
-
-    Shader shader = gl.loader.UploadShader("vert", "frag");
-    
-    TEXTURE_SLOT tex = gl.loader.UploadTexture("terrain", true);
-    auto seed = ((unsigned int)(sw.read(ftime::NANOSECONDS)*100000)) ^ 0x00000000A30B4F29;
-    std::cout << seed << "\n";
-    srand(seed);
-    for (int i = 0; i < 1000; i++) {
-        entID e = scene.newEntity();
-        scene.addComp<AtlasSprite>(e, tex, glm::ivec2(32, 64), glm::vec2(0.5, 15.f));
-        
-        scene.addComp<Transform>(e, glm::vec2(frand(-1200, 1200), frand(-1000, 1000)), frand(0, 359), glm::vec2(100, 200) * frand(0.2,3));
-        
-        scene.addComp<RenderFlag>(e, true);
-        
-        scene.addComp<Shader>(e);
-        scene.getComp<Shader>(e) = shader;
-    }
-    
-    entID cam = scene.newEntity();
-    scene.addComp<OrthoCamera>(cam, glm::vec3(0.f, 0.f, 1.f), glm::vec3(0.f, 0.f, -1.f), glm::vec3(0.f, 1.f, 0.f), 0.001, 1000, -1);
-    
-    sw.reset_start();
-    
-    uint32_t dumpCount = 0xFFF;
-    float rendertimes[0x1000];
-    while (!window.should_close()){
-        static uint32_t fpsdelay = 0;
-        bool fps = window.keyboard[GLFW_KEY_F].down && !(fpsdelay++ % 100);
-        gl.clear();
-        
-        ftime::Stopwatch debug(ftime::MILLISECONDS);
-        cameraSystem(scene, window);
-        rotateSystem(scene, window);
-        debug.reset_start();
-        renderSystem(scene);
-        float t = debug.stop_reset_start();
-        if (fps)
-            std::cout << "\tren sys: " << t << "\n";
-        if (dumpCount){
-            rendertimes[dumpCount--] = t;
-        } else {
-            float avg = 0;
-            for (int i = 0; i < 0x1000; i++){
-                avg += rendertimes[i];
-            }
-            avg /= 0x1000;
-            std::cout << "average render time: " << avg << "ms\n";
-            gl.destroy();
-            return 0;
-        }
-        window.update();
-        dt = sw.stop_reset_start();
-    }
-    
-    gl.destroy();
-    return 0;
-}
 
 int main(){
-//    render_sys_stress_main();
     flappy();
     return 0;
 }
